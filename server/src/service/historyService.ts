@@ -14,10 +14,10 @@ class City {
 
 // Define the structure of the cities array, and use the `City` class for typing
 class HistoryService {
-  // Resolve the correct path for db.json file, making sure it's absolute
-  private filePath = resolve(__dirname, '../../db/db.json');
+  // Resolve the correct path for searchHistory.json file, making sure it's absolute
+  private filePath = resolve(__dirname, '../../db/searchHistory.json');
 
-  // Define a private read method that reads from the db.json file
+  // Define a private read method that reads from the searchHistory.json file
   private async read(): Promise<City[]> {
     try {
       const data = await fs.readFile(this.filePath, 'utf-8');
@@ -33,10 +33,10 @@ class HistoryService {
     }
   }
 
-  // Define a private write method that writes the updated cities array to the db.json file
+  // Define a private write method that writes the updated cities array to the searchHistory.json file
   private async write(cities: City[]): Promise<void> {
     try {
-      // Write the cities array to the db.json file, with indentation for readability
+      // Write the cities array to the searchHistory.json file, with indentation for readability
       await fs.writeFile(this.filePath, JSON.stringify(cities, null, 2));
     } catch (error) {
       console.error("Error writing to the file:", error);
@@ -44,12 +44,12 @@ class HistoryService {
     }
   }
 
-  // Public method that gets all cities from the db.json file
+  // Public method that gets all cities from the searchHistory.json file
   async getCities(): Promise<City[]> {
     return await this.read();
   }
 
-  // Public method to add a new city to the db.json file
+  // Public method to add a new city to the searchHistory.json file
   async addCity(city: string): Promise<void> {
     const cities = await this.getCities(); // Get the current cities
     const newCity = new City(uuidv4(), city); // Create a new city with a unique ID
@@ -57,7 +57,7 @@ class HistoryService {
     await this.write(cities); // Write the updated array back to the file
   }
 
-  // BONUS: Public method to remove a city from the db.json file by its ID
+  // BONUS: Public method to remove a city from the searchHistory.json file by its ID
   async removeCity(id: string): Promise<void> {
     const cities = await this.getCities(); // Get the current cities
     const updatedCities = cities.filter((city) => city.id !== id); // Filter out the city to be removed
