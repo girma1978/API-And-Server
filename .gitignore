@@ -1,3 +1,51 @@
+# Node.js modules
 node_modules/
-.npmrc
+
+# Vite build output
+/dist/
+
+# Logs
+*.log
+
+# Environment variables
 .env
+
+# npm and yarn lock files (if you're using Yarn, uncomment the next line)
+# yarn.lock
+
+# .DS_Store (macOS)
+.DS_Store
+
+# Vite cache
+/.vite/
+
+# TypeScript declaration files
+*.d.ts
+
+# Build directories
+/build/
+
+# Temporary files
+*.tmp
+*.swp
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# OS-generated files (Windows)
+Thumbs.db
+Desktop.ini
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows-related temporary files
+*.bak
+*.swp
+
+# Windows 10 file search database
+ehthumbs.db
