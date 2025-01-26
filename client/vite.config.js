@@ -7,9 +7,11 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'https://api-and-server-9sk2.onrender.com', // Change to your Render API base URL
+        target: process.env.RENDER_ENV === 'production' 
+          ? 'https://api-and-server-9sk2.onrender.com' 
+          : 'http://localhost:3001',
         changeOrigin: true,
-        secure: true,  // Use secure if the Render API is HTTPS
+        secure: false,
       },
     },
   },

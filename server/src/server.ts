@@ -27,6 +27,11 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 // Connect dynamic routes
 app.use(routes); // This imports and uses all the routes from your 'routes/index.js' file
 
+// Handle generic errors for invalid routes (404)
+app.use((req, res) => {
+  res.status(404).send({ error: 'Not Found' }); // Custom 404 for unmatched routes
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on PORT: ${PORT}`);
