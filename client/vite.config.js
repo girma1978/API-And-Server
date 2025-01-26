@@ -7,9 +7,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: process.env.RENDER_ENV === 'production' 
-          ? 'https://api-and-server-9sk2.onrender.com' 
-          : 'http://localhost:3001',
+        target: process.env.RENDER_ENV || 'http://localhost:3001', // Default to local if VITE_API_URL is not set
         changeOrigin: true,
         secure: false,
       },

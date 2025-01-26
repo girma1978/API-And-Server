@@ -8,7 +8,7 @@ import routes from './routes/index.js';
 
 const app = express();
 
-// Configure CORS to allow requests from any origin (you can narrow this down for security)
+// CORS configuration - Allow all origins and specific methods
 app.use(cors({
   origin: '*', // Allow all origins; adjust for security as needed
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow methods as necessary
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 app.use(routes); // This imports and uses all the routes from your 'routes/index.js' file
 
 // Handle generic errors for invalid routes (404)
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).send({ error: 'Not Found' }); // Custom 404 for unmatched routes
 });
 

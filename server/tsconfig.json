@@ -1,13 +1,12 @@
 {
-  "extends": "../tsconfig.json",  // Inherit from the parent config
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",  // Specify the root folder
-    "outDir": "dist"   // Specify the output folder
-  },
-  "include": ["src"],  // Include all TypeScript files under src
-  "exclude": [
-    "node_modules",  // Exclude node_modules from the compilation process
-    "**/*.test.ts"   // Optionally exclude test files if any
-  ]
-}
+    /* Modules */
+    "rootDir": "src" /* Specify the root folder within your source files. */,
 
+    /* Emit */
+    "outDir": "dist" /* Specify an output folder for all emitted files. */
+    // "noEmitOnError": true /* Disable emitting files if any type checking errors are reported. */
+  },
+  "include": ["src"]
+}
