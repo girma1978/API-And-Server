@@ -1,13 +1,15 @@
+// In htmlRoutes.ts
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Router } from 'express';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const router = Router();
 
-// TODO: Define route to serve index.html
+// Dynamically serve index.html from 'client/dist'
 router.get('/', (_, res) => {
-  res.sendFile(path.join(__dirname, 'path_to_your_directory', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
 });
 
 export default router;
