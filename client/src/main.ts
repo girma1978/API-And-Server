@@ -1,4 +1,3 @@
-
 import './styles/jass.css';
 
 // * All necessary DOM elements selected
@@ -17,8 +16,15 @@ const humidityEl: HTMLParagraphElement = document.getElementById('humidity') as 
 API Calls
 */
 
+const getBaseUrl = (): string => {
+  return window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000' 
+    : 'https://api-and-server-9sk2.onrender.com';
+};
+
 const fetchWeather = async (city: string) => {  // Changed cityName to city
-  const response = await fetch('/api/weather/', {
+  const baseUrl = getBaseUrl(); // Get the correct base URL
+  const response = await fetch(`${baseUrl}/api/weather/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +41,8 @@ const fetchWeather = async (city: string) => {  // Changed cityName to city
 };
 
 const fetchSearchHistory = async () => {
-  const history = await fetch('/api/weather/history', {
+  const baseUrl = getBaseUrl(); // Get the correct base URL
+  const history = await fetch(`${baseUrl}/api/weather/history`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +52,8 @@ const fetchSearchHistory = async () => {
 };
 
 const deleteCityFromHistory = async (id: string) => {
-  await fetch(`/api/weather/history/${id}`, {
+  const baseUrl = getBaseUrl(); // Get the correct base URL
+  await fetch(`${baseUrl}/api/weather/history/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -240,4 +248,3 @@ searchForm?.addEventListener('submit', handleSearchFormSubmit);
 searchHistoryContainer?.addEventListener('click', handleSearchHistoryClick);
 
 getAndRenderHistory();
-
