@@ -7,7 +7,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'http://localhost:3001'|| `https://api-and-server-9sk2.onrender.com`,
         changeOrigin: true,
         secure: false,
       },
