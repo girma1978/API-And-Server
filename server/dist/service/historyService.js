@@ -7,6 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 // Define the City class to represent individual cities with an ID and name
 class City {
+    id;
+    name;
     constructor(id, name) {
         this.id = id;
         this.name = name;
@@ -14,11 +16,9 @@ class City {
 }
 // Define the structure of the cities array, and use the `City` class for typing
 class HistoryService {
-    constructor() {
-        // Resolve the correct path for searchHistory.json file, making sure it's absolute
-        this.filePath = resolve(__dirname, '../../db/searchHistory.json');
-    }
-    // Define a private read method that reads from the searchHistory.json file
+    // Resolve the correct path for db.json file, making sure it's absolute
+    filePath = resolve(__dirname, '../../db/db.json');
+    // Define a private read method that reads from the db.json file
     async read() {
         try {
             const data = await fs.readFile(this.filePath, 'utf-8');
@@ -34,10 +34,10 @@ class HistoryService {
             throw error; // Rethrow error after logging
         }
     }
-    // Define a private write method that writes the updated cities array to the searchHistory.json file
+    // Define a private write method that writes the updated cities array to the db.json file
     async write(cities) {
         try {
-            // Write the cities array to the searchHistory.json file, with indentation for readability
+            // Write the cities array to the db.json file, with indentation for readability
             await fs.writeFile(this.filePath, JSON.stringify(cities, null, 2));
         }
         catch (error) {
@@ -45,18 +45,18 @@ class HistoryService {
             throw error; // Rethrow error after logging
         }
     }
-    // Public method that gets all cities from the searchHistory.json file
+    // Public method that gets all cities from the db.json file
     async getCities() {
         return await this.read();
     }
-    // Public method to add a new city to the searchHistory.json file
+    // Public method to add a new city to the db.json file
     async addCity(city) {
         const cities = await this.getCities(); // Get the current cities
         const newCity = new City(uuidv4(), city); // Create a new city with a unique ID
         cities.push(newCity); // Add the new city to the cities array
         await this.write(cities); // Write the updated array back to the file
     }
-    // BONUS: Public method to remove a city from the searchHistory.json file by its ID
+    // BONUS: Public method to remove a city from the db.json file by its ID
     async removeCity(id) {
         const cities = await this.getCities(); // Get the current cities
         const updatedCities = cities.filter((city) => city.id !== id); // Filter out the city to be removed

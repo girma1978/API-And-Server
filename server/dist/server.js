@@ -1,15 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-import path from 'path'; // Import path module to handle file paths dynamically
-import { fileURLToPath } from 'node:url'; // Import to get the current file's URL
 dotenv.config();
 // Import the routes
 import routes from './routes/index.js';
 const app = express();
-// Get the directory name of the current file (equivalent of __dirname in ES modules)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 // Configure CORS to allow requests from any origin (you can narrow this down for security)
 app.use(cors({
     origin: '*', // Allow all origins; adjust for security as needed
@@ -17,23 +12,15 @@ app.use(cors({
 }));
 // Set up the port from the environment or default to 3001
 const PORT = process.env.PORT || 3001;
-// Serve static files from 'client' in development or 'client/dist' in production
-const isProduction = process.env.NODE_ENV === 'production';
-if (isProduction) {
-    // If in production, serve from the 'client/dist' directory
-    app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));
-}
-else {
-    // During development, serve the client files directly from 'client'
-    app.use(express.static(path.join(__dirname, '..', 'client')));
-}
+// Serve static files from 'client/dist' (adjust for the actual path)
+app.use(express.static('client/dist')); // Static file serving for the client
 // Middleware to parse incoming requests of various content types
 app.use(express.json()); // Parse JSON data
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 // Connect dynamic routes
 app.use(routes); // This imports and uses all the routes from your 'routes/index.js' file
 // Handle generic errors for invalid routes (404)
-app.use((_req, res) => {
+app.use((req, res) => {
     res.status(404).send({ error: 'Not Found' }); // Custom 404 for unmatched routes
 });
 // Start the server

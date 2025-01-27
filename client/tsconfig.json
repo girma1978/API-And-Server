@@ -1,15 +1,19 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "../dist",  // Output JS files one level up to the dist folder
+    "rootDir": "./src",  // Set rootDir to client/src
+    "esModuleInterop": true,
     "skipLibCheck": true,
-
-    /* Bundler mode */
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
+    "strict": true,
+    "resolveJsonModule": true
   },
-  "include": ["src"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "dist"
+  ]
 }

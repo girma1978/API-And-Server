@@ -1,35 +1,49 @@
 import './styles/jass.css';
 
 // * All necessary DOM elements selected
-const searchForm: HTMLFormElement = document.getElementById('search-form') as HTMLFormElement;
-const searchInput: HTMLInputElement = document.getElementById('search-input') as HTMLInputElement;
+const searchForm: HTMLFormElement = document.getElementById(
+  'search-form'
+) as HTMLFormElement;
+const searchInput: HTMLInputElement = document.getElementById(
+  'search-input'
+) as HTMLInputElement;
 const todayContainer = document.querySelector('#today') as HTMLDivElement;
 const forecastContainer = document.querySelector('#forecast') as HTMLDivElement;
-const searchHistoryContainer = document.getElementById('history') as HTMLDivElement;
-const heading: HTMLHeadingElement = document.getElementById('search-title') as HTMLHeadingElement;
-const weatherIcon: HTMLImageElement = document.getElementById('weather-img') as HTMLImageElement;
-const tempEl: HTMLParagraphElement = document.getElementById('temp') as HTMLParagraphElement;
-const windEl: HTMLParagraphElement = document.getElementById('wind') as HTMLParagraphElement;
-const humidityEl: HTMLParagraphElement = document.getElementById('humidity') as HTMLParagraphElement;
+const searchHistoryContainer = document.getElementById(
+  'history'
+) as HTMLDivElement;
+const heading: HTMLHeadingElement = document.getElementById(
+  'search-title'
+) as HTMLHeadingElement;
+const weatherIcon: HTMLImageElement = document.getElementById(
+  'weather-img'
+) as HTMLImageElement;
+const tempEl: HTMLParagraphElement = document.getElementById(
+  'temp'
+) as HTMLParagraphElement;
+const windEl: HTMLParagraphElement = document.getElementById(
+  'wind'
+) as HTMLParagraphElement;
+const humidityEl: HTMLParagraphElement = document.getElementById(
+  'humidity'
+) as HTMLParagraphElement;
+
+// Determine base URL (local or Render)
+const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://api-and-server-9sk2.onrender.com';
 
 /*
+
 API Calls
+
 */
 
-const getBaseUrl = (): string => {
-  return window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000' 
-    : 'https://api-and-server-9sk2.onrender.com';
-};
-
-const fetchWeather = async (city: string) => {  // Changed cityName to city
-  const baseUrl = getBaseUrl(); // Get the correct base URL
+const fetchWeather = async (cityName: string) => {
   const response = await fetch(`${baseUrl}/api/weather/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ city }),  // Send city parameter
+    body: JSON.stringify({ cityName }),
   });
 
   const weatherData = await response.json();
@@ -41,7 +55,6 @@ const fetchWeather = async (city: string) => {  // Changed cityName to city
 };
 
 const fetchSearchHistory = async () => {
-  const baseUrl = getBaseUrl(); // Get the correct base URL
   const history = await fetch(`${baseUrl}/api/weather/history`, {
     method: 'GET',
     headers: {
@@ -52,7 +65,6 @@ const fetchSearchHistory = async () => {
 };
 
 const deleteCityFromHistory = async (id: string) => {
-  const baseUrl = getBaseUrl(); // Get the correct base URL
   await fetch(`${baseUrl}/api/weather/history/${id}`, {
     method: 'DELETE',
     headers: {
@@ -62,14 +74,20 @@ const deleteCityFromHistory = async (id: string) => {
 };
 
 /*
+
 Render Functions
+
 */
 
 const renderCurrentWeather = (currentWeather: any): void => {
-  const { city, date, icon, iconDescription, tempF, windSpeed, humidity } = currentWeather;
+  const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
+    currentWeather;
 
   heading.textContent = `${city} (${date})`;
-  weatherIcon.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
+  weatherIcon.setAttribute(
+    'src',
+    `https://openweathermap.org/img/w/${icon}.png`
+  );
   weatherIcon.setAttribute('alt', iconDescription);
   weatherIcon.setAttribute('class', 'weather-img');
   heading.append(weatherIcon);
@@ -104,11 +122,14 @@ const renderForecast = (forecast: any): void => {
 const renderForecastCard = (forecast: any) => {
   const { date, icon, iconDescription, tempF, windSpeed, humidity } = forecast;
 
-  const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } = createForecastCard();
+  const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } =
+    createForecastCard();
 
-  // Add content to elements
   cardTitle.textContent = date;
-  weatherIcon.setAttribute('src', `https://openweathermap.org/img/w/${icon}.png`);
+  weatherIcon.setAttribute(
+    'src',
+    `https://openweathermap.org/img/w/${icon}.png`
+  );
   weatherIcon.setAttribute('alt', iconDescription);
   tempEl.textContent = `Temp: ${tempF} °F`;
   windEl.textContent = `Wind: ${windSpeed} MPH`;
@@ -126,10 +147,10 @@ const renderSearchHistory = async (searchHistory: any) => {
     searchHistoryContainer.innerHTML = '';
 
     if (!historyList.length) {
-      searchHistoryContainer.innerHTML = '<p class="text-center">No Previous Search History</p>';
+      searchHistoryContainer.innerHTML =
+        '<p class="text-center">No Previous Search History</p>';
     }
 
-    // * Start at end of history array and count down to show the most recent cities at the top.
     for (let i = historyList.length - 1; i >= 0; i--) {
       const historyItem = buildHistoryListItem(historyList[i]);
       searchHistoryContainer.append(historyItem);
@@ -138,7 +159,9 @@ const renderSearchHistory = async (searchHistory: any) => {
 };
 
 /*
+
 Helper Functions
+
 */
 
 const createForecastCard = () => {
@@ -156,7 +179,13 @@ const createForecastCard = () => {
   cardBody.append(cardTitle, weatherIcon, tempEl, windEl, humidityEl);
 
   col.classList.add('col-auto');
-  card.classList.add('forecast-card', 'card', 'text-white', 'bg-primary', 'h-100');
+  card.classList.add(
+    'forecast-card',
+    'card',
+    'text-white',
+    'bg-primary',
+    'h-100'
+  );
   cardBody.classList.add('card-body', 'p-2');
   cardTitle.classList.add('card-title');
   tempEl.classList.add('card-text');
@@ -186,7 +215,15 @@ const createHistoryButton = (city: string) => {
 const createDeleteButton = () => {
   const delBtnEl = document.createElement('button');
   delBtnEl.setAttribute('type', 'button');
-  delBtnEl.classList.add('fas', 'fa-trash-alt', 'delete-city', 'btn', 'btn-danger', 'col-2');
+  delBtnEl.classList.add(
+    'fas',
+    'fa-trash-alt',
+    'delete-city',
+    'btn',
+    'btn-danger',
+    'col-2'
+  );
+
   delBtnEl.addEventListener('click', handleDeleteHistoryClick);
   return delBtnEl;
 };
@@ -207,7 +244,9 @@ const buildHistoryListItem = (city: any) => {
 };
 
 /*
+
 Event Handlers
+
 */
 
 const handleSearchFormSubmit = (event: any): void => {
@@ -226,7 +265,7 @@ const handleSearchFormSubmit = (event: any): void => {
 
 const handleSearchHistoryClick = (event: any) => {
   if (event.target.matches('.history-btn')) {
-    const city = event.target.textContent;  // Use city instead of cityName
+    const city = event.target.textContent;
     fetchWeather(city).then(getAndRenderHistory);
   }
 };
@@ -238,7 +277,9 @@ const handleDeleteHistoryClick = (event: any) => {
 };
 
 /*
+
 Initial Render
+
 */
 
 const getAndRenderHistory = () =>

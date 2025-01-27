@@ -2,6 +2,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 // Define a class for the Weather object
 class Weather {
+    temperature;
+    humidity;
+    description;
+    icon;
     constructor(temperature, // Temperature in Fahrenheit
     humidity, description, icon) {
         this.temperature = temperature;
@@ -11,10 +15,8 @@ class Weather {
     }
 }
 class WeatherService {
-    constructor() {
-        this.baseURL = 'https://api.openweathermap.org/data/2.5';
-        this.apiKey = process.env.API_KEY;
-    }
+    baseURL = 'https://api.openweathermap.org/data/2.5';
+    apiKey = process.env.API_KEY;
     // Update fetchLocationData to return coordinates and cityId
     async fetchLocationData(query) {
         const response = await fetch(`${this.baseURL}/weather?q=${query}&appid=${this.apiKey}&units=imperial`);
