@@ -88,3 +88,10 @@ The application is deployed to Render and can be accessed via the following link
   - GET: https://api-and-server-9sk2.onrender.com/api/weather/history
   - POST: https://api-and-server-9sk2.onrender.com/api/weather/
   - DELETE: https://api-and-server-9sk2.onrender.com/api/weather/history/:id
+
+## Github repo link
+-Link: https://github.com/girma1978/API-And-Server
+
+## Render link
+-Link: https://api-and-server-9sk2.onrender.com/
+
